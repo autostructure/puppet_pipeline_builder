@@ -1,5 +1,7 @@
-plan maven::maven_install(
+plan maven::pipeline_tools_install(
   TargetSpec  $nodes,
+  String      $agent_token,
+  String      $agent_key,
 ) {
   # Install the puppet-agent package if Puppet is not detected.
   # Copy over custom facts from the Bolt modulepath.
@@ -20,6 +22,11 @@ plan maven::maven_install(
 
       class { '::ius': }
 
+      class { 'pipelines::agent':
+        access_token => Sensitive($agent_token),
+        secret_key   => Sensitive($agent_key),
+      }
+
       package { 'wget':
         ensure => present,
       }
@@ -30,5 +37,5 @@ plan maven::maven_install(
     }
 
     # Install maven
-    # run_task('maven::maven_install', $nodes)
+    run_task('maven::maven_install', $nodes)
 }
