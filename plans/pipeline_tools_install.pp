@@ -1,4 +1,4 @@
-plan pipeline_tools::pipeline_tools_install(
+plan pipeline_tools_builder::pipeline_tools_install(
   TargetSpec  $nodes,
   String      $agent_token,
   String      $agent_key,
