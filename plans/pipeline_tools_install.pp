@@ -37,5 +37,5 @@ plan puppet_pipeline_builder::pipeline_tools_install(
     }
 
     # Install maven
-    run_task('maven::maven_install', $nodes)
+    run_task('puppet_pipeline_builder::maven_install', $nodes)
 }
