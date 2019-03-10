@@ -1,7 +1,5 @@
 plan puppet_pipeline_builder::pipeline_tools_install(
   TargetSpec  $nodes,
-  String      $agent_token,
-  String      $agent_key,
 ) {
   # Install the puppet-agent package if Puppet is not detected.
   # Copy over custom facts from the Bolt modulepath.
@@ -22,10 +20,10 @@ plan puppet_pipeline_builder::pipeline_tools_install(
 
       class { '::ius': }
 
-      class { 'pipelines::agent':
-        access_token => Sensitive($agent_token),
-        secret_key   => Sensitive($agent_key),
-      }
+      # class { 'pipelines::agent':
+      #   access_token => Sensitive($agent_token),
+      #   secret_key   => Sensitive($agent_key),
+      # }
 
       package { 'wget':
         ensure => present,
@@ -33,6 +31,10 @@ plan puppet_pipeline_builder::pipeline_tools_install(
 
       package { 'git':
         ensure => installed,
+      }
+
+      user { 'distelli':
+        groups => ['docker'],
       }
     }
 
